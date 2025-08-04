@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iovu.iovuback.mapper.DashboardMapper">
+
+
+    <!-- 아이디로 모든 대시보드 조회 (AI 유형별) -->
+    <select id="getDashboardDTOByReportDetailId" resultType="DashboardDTO">
+        SELECT
+            d.dashboard_id,
+            d.report_detail_id,
+            d.result_summary,
+            d.brand_rate1,
+            d.brand_rate2,
+            d.brand_rank,
+            d.domain_rate1,
+            d.domain_rate2,
+            d.brand_mention,
+            rd.ai_type,
+            CASE
+                WHEN rd.ai_type = 'chatgpt' THEN 'ChatGPT'
+                WHEN rd.ai_type = 'gemini' THEN 'Gemini'
+                WHEN rd.ai_type = 'claude' THEN 'Claude'
+                ELSE rd.ai_type
+                END as ai_type_name,
+            rl.keyword
+        FROM
+            dashboard d
+                JOIN
+            report_detail rd ON d.report_detail_id = rd.report_detail_id
+                JOIN
+            report_list rl ON rd.report_id = rl.report_id
+        WHERE
+            rd.report_detail_id = #{report_detail_id}
+        ORDER BY
+            rd.ai_type
+    </select>
+
+</mapper>
