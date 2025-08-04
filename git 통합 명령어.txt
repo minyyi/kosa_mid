@@ -1,0 +1,46 @@
+1. Git 라인 엔딩 설정
+# Windows 사용자
+git config --global core.autocrlf true
+
+# macOS/Linux 사용자 
+git config --global core.autocrlf input
+ 
+#### 잘 되었는지 확인방법 ########
+git config --global core.autocrlf
+
+
+2. .gitattributes 파일 설정
+# 모든 텍스트 파일에 대해 라인 엔딩 정규화
+* text=auto
+
+# Java 파일은 항상 LF 사용
+*.java text eol=lf
+*.xml text eol=lf
+*.properties text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# 바이너리 파일은 변경하지 않음
+*.jar binary
+*.war binary
+*.pdf binary
+*.jpg binary
+*.png binary
+
+3. IDE 특정 설정 무시
+# IntelliJ
+.idea/
+*.iml
+*.iws
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# VS Code
+.vscode/
+
+4. Merge 전 차이점 확인
+git diff main baek
+
